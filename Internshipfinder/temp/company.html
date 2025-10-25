@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Companies</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <nav class="bg-indigo-600 p-4 text-white flex justify-between">
+    <h1 class="text-xl font-bold">Admin Panel</h1>
+    <div>
+      
+      <a href="logout" class="hover:underline">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container mx-auto mt-8 px-4">
+    <h2 class="text-2xl font-bold mb-4">All Companies</h2>
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+      <table class="w-full border-collapse">
+        <thead class="bg-indigo-100 text-indigo-800">
+          <tr>
+            <th class="p-3 text-left">Company Name</th>
+            <th class="p-3 text-left">Owner</th>
+            <th class="p-3 text-left">Email</th>
+            <th class="p-3 text-left">Address</th>
+            <th class="p-3 text-left">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cmp in companies %}
+          <tr class="border-t hover:bg-gray-50">
+            <td class="p-3 font-semibold">{{ cmp.company_name }}</td>
+            <td class="p-3">{{ cmp.company_owner }}</td>
+            <td class="p-3">{{ cmp.company_email }}</td>
+            <td class="p-3">{{ cmp.company_address }}</td>
+            <td class="p-3">
+              {% if cmp.status == 1 %}
+                <span class="px-3 py-1 rounded bg-green-100 text-green-700 text-sm">Approved</span>
+              {% else %}
+                <span class="px-3 py-1 rounded bg-yellow-100 text-yellow-700 text-sm">Pending</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="5" class="p-4 text-center text-gray-500">No companies found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>

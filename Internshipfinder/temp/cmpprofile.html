@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ cmp.company_name }} - Profile</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #88a1c7;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: #fff;
+      padding: 30px;
+      text-align: center;
+    }
+    .header h2 {
+      margin: 10px 0 0;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #eee;
+    }
+    .tabs button {
+      flex: 1;
+      padding: 15px;
+      border: none;
+      background: #f9f9f9;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      color: #555;
+      transition: 0.3s;
+    }
+    .tabs button.active {
+      background: #fff;
+      border-bottom: 3px solid #27ae60;
+      color: #27ae60;
+    }
+    .content {
+      padding: 25px;
+    }
+    .info p {
+      margin: 10px 0;
+      font-size: 15px;
+      color: #333;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+    button.save {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #27ae60;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button.save:hover {
+      background: #219150;
+    }
+    a.back-btn {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 15px;
+  background: #bdc3c7;
+  color: #2c3e50;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  transition: 0.3s;
+}
+a.back-btn:hover {
+  background: #95a5a6;
+  color: #fff;
+}
+
+  </style>
+</head>
+<body>
+    <a href="/cmpback" class="back-btn">⬅ Back</a>
+   
+  <div class="container">
+    <div class="header">
+        
+      <h1>{{ cmp.company_name }}</h1>
+      <h2>Owned by {{ cmp.company_owner }}</h2>
+    </div>
+
+    <div class="tabs">
+      <button id="viewBtn" class="active" onclick="showTab('view')">View Profile</button>
+      <button id="editBtn" onclick="showTab('edit')">Edit Profile</button>
+    </div>
+
+    <div class="content">
+      <!-- View Profile -->
+      <div id="viewTab" class="tab-content">
+        <div class="info">
+          <p><strong>Company Name:</strong> {{ cmp.company_name }}</p>
+          <p><strong>Owner:</strong> {{ cmp.company_owner }}</p>
+          <p><strong>Email:</strong> {{ cmp.company_email }}</p>
+          <p><strong>Address:</strong> {{ cmp.company_address }}</p>
+        </div>
+      </div>
+
+      <!-- Edit Profile -->
+      <div id="editTab" class="tab-content" style="display:none;">
+        <form method="POST" action="../../company_profile/{{cmp.id}}">
+          {% csrf_token %}
+          <label>Company Name</label>
+          <input type="text" name="cmpname" value="{{ cmp.company_name }}" required>
+
+          <label>Owner</label>
+          <input type="text" name="cmpowner" value="{{ cmp.company_owner }}" required>
+
+          <label>Email</label>
+          <input type="email" name="cmpemail" value="{{ cmp.company_email }}" required>
+
+          <label>Address</label>
+          <textarea name="cmpaddress" required>{{ cmp.company_address }}</textarea>
+
+          <button type="submit" class="save">💾 Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(tab) {
+      document.getElementById("viewTab").style.display = (tab === "view") ? "block" : "none";
+      document.getElementById("editTab").style.display = (tab === "edit") ? "block" : "none";
+      document.getElementById("viewBtn").classList.toggle("active", tab === "view");
+      document.getElementById("editBtn").classList.toggle("active", tab === "edit");
+    }
+  </script>
+</body>
+</html>
